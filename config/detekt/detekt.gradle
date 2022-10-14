@@ -1,0 +1,42 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+project.afterEvaluate {
+    tasks.named("preBuild") { //antes de executar o pré build ele executaráo detekt
+        dependsOn("detekt")
+    }
+}
+
+detekt {
+    toolVersion = "$detekt_version"
+    def inputDirFiles = [] //Codigo que mostra o caminho para o detekt analisar
+    rootProject.subprojects.each {module -> // analisa diretórios e sub diretórios
+        inputDirFiles <<"$module.projectDir/src/main/java"
+    }
+    source = files(inputDirFiles) //informa para o detekt os arquivos a serem analisados
+    config = files("$rootDir/config/detekt/detekt.yml")
+    autoCorrect = true //faz pequenas correções no codigo
+
+    reports {
+        xml{
+            enabled = true
+            destination = file("$buildDir/reports/detekt/detekt.xml")
+        }
+        html{
+            enabled = true
+            destination = file("$buildDir/reports/detekt/detekt.html")
+        }
+        txt{
+            enabled = true
+            destination = file("$buildDir/reports/detekt/detekt.txt")
+        }
+    }
+
+    //Relatorios detekt versão documentação
+//    tasks.withType<Detekt>(true).configureEach {
+//            xml.required.set(true)
+//            html.required.set(true)
+//            txt.required.set(true)
+//            sarif.required.set(true)
+//            md.required.set(true)
+//    }
+}
