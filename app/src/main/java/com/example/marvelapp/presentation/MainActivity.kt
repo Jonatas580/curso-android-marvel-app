@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {              //Ponto de entrada, pra 
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-                                        //Não é um fragmento comum, vai receber outros fragmentos para facilitar a navegação
+        //Não é um fragmento comum, vai receber outros fragmentos para facilitar a navegação
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nave_host_container) as NavHostFragment
 
         navController = navHostFragment.navController
