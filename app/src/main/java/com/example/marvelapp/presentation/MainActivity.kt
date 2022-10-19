@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.ActivityMainBinding
 
@@ -18,9 +19,13 @@ class MainActivity : AppCompatActivity() {              //Ponto de entrada, pra 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //Não é um fragmento comum, vai receber outros fragmentos para facilitar a navegação
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nave_host_container) as NavHostFragment
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nave_host_container) as NavHostFragment
 
         navController = navHostFragment.navController
+
+        binding.bottomNavMain.setupWithNavController(navController)
+
         appBarConfiguration = AppBarConfiguration(
             setOf()
         )
