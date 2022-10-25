@@ -26,9 +26,21 @@ class MainActivity : AppCompatActivity() {              //Ponto de entrada, pra 
 
         binding.bottomNavMain.setupWithNavController(navController)
 
+        //Aqui mostra os destinos iniciais das telas
         appBarConfiguration = AppBarConfiguration(
-            setOf()
+            setOf(R.id.charactersFragment, R.id.favoritesFragment, R.id.aboutFragment)
         )
+
+        binding.toobarApp.setupWithNavController(navController, appBarConfiguration)
+
+        //Configura o destino para que seta apareça no grafo de navegação
+        navController.addOnDestinationChangedListener {_, destination, _ ->
+            val isTopLevelDestination = appBarConfiguration.topLevelDestinations.contains(destination.id)
+            if (!isTopLevelDestination) {
+                binding.toobarApp.setNavigationIcon(R.drawable.ic_back)
+            }
+
+        }
     }
 }
 
