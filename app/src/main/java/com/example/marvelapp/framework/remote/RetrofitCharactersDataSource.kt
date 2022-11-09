@@ -5,7 +5,7 @@ import com.example.marvelapp.framework.network.response.DataWrapperResponse
 import com.jonatas.core.data.repository.CharactersRemoteDataSource
 import javax.inject.Inject
 
-class RetrofitCharactersDataSouce @Inject constructor(
+class RetrofitCharactersDataSource @Inject constructor(
     private val marvelApi: MarvelApi
 ) : CharactersRemoteDataSource< DataWrapperResponse> {
 
