@@ -5,16 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentCharactersBinding
 import com.jonatas.core.domain.model.Character
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
     private var _binding: FragmentCharactersBinding? = null
     private val binding: FragmentCharactersBinding get() = _binding!!
+
+    private val viewModel: CharatersViewModel by viewModels()
 
     private val charactersAdapter = CharactersAdapter()
 
@@ -25,7 +30,7 @@ class CharactersFragment : Fragment() {
         inflater,
         container,
         false
-    ). apply {
+    ).apply {
         _binding = this
     }.root
 
@@ -33,34 +38,14 @@ class CharactersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCharactersAdapter()
 
-        charactersAdapter.submitList(
-            listOf(
-                Character("João", "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-            )
-        )
+        lifecycleScope.launch {
+            viewModel.charactersPagingData("").collect { pagingData ->
+                charactersAdapter.submitData(pagingData)
+            }
+        }
     }
 
-    private  fun  initCharactersAdapter() {
+    private fun initCharactersAdapter() {
         with(binding.recyclerCharacters) {
             setHasFixedSize(true)
             adapter = charactersAdapter
