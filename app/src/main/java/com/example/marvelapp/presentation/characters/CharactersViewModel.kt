@@ -5,20 +5,21 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.jonatas.core.usecase.GetCharactersUseCase
-import kotlinx.coroutines.flow.Flow
 import com.jonatas.core.domain.model.Character
+import com.jonatas.core.usecase.GetCharactersUseCase
+import com.jonatas.core.usecase.GetCharactersUseCase.GetCharactersParams
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class CharatersViewModel @Inject constructor(
+class CharactersViewModel @Inject constructor(
    private val getCharactersUseCase: GetCharactersUseCase
 ) : ViewModel() {
 
    fun charactersPagingData(query: String): Flow<PagingData<Character>> {
       return getCharactersUseCase(
-         GetCharactersUseCase.GetCharactersParms(query, getPageConfig())
+         GetCharactersParams(query, getPageConfig())
       ).cachedIn(viewModelScope)
    }
 

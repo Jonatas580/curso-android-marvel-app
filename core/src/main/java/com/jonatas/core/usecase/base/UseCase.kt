@@ -19,6 +19,7 @@ abstract class UseCase <in P, R> {
 }
 
 abstract class PadingUseCase<in P, R : Any> {
+
     operator fun invoke(params: P): Flow<PagingData<R>> = createFlowObservable(params)
 
     protected  abstract fun createFlowObservable(params: P): Flow<PagingData<R>>
