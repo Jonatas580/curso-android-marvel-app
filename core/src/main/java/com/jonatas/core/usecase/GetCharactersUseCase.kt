@@ -22,8 +22,9 @@ private val charactersRepository: CharactersRepository
     GetCharactersUseCase {
 
     override fun createFlowObservable(params: GetCharactersParams): Flow<PagingData<Character>> {
+        val pageSouce = charactersRepository.getCharacters(params.query)
         return Pager(config = params.pagingConfig) {
-            charactersRepository.getCharacters(params.query)
+            pageSouce
         }.flow
     }
 }
