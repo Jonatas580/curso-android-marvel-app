@@ -8,7 +8,7 @@ import com.jonatas.core.data.repository.CharactersRemoteDataSource
 import com.jonatas.core.domain.model.Character
 
 //Criando paginação
-class CharatersPagingSource(
+class CharactersPagingSource(
     private val remoteDataSource: CharactersRemoteDataSource<DataWrapperResponse>,
     private val query: String
 ) : PagingSource<Int, Character>() {
@@ -41,7 +41,7 @@ class CharatersPagingSource(
 
             )
 
-        } catch (exception: Error) {
+        } catch (exception: Exception) {
             LoadResult.Error(exception)
         }
     }
